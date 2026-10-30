@@ -1,0 +1,5 @@
+# Viewer & editor feedback about the Hindi narration. One note per line; lines starting with # are ignored.
+# Every note here is sent to the writer, the editor and the judge. Add new feedback as you get it.
+बीच-बीच में कहानी कवितामय हो जाती है और फिर सामान्य; पूरी कहानी एक ही बोलचाल वाले लहजे में होनी चाहिए।
+रिदम बार-बार टूटती है: बहुत ज़्यादा छोटे वाक्य और पूर्ण विराम। वाक्यों को जोड़कर बहाव बनाइए।
+कहानी engaging नहीं लगती: शुरुआत में सवाल/उलझन, बीच में बढ़ता तनाव, और अंत में उसका जवाब होना चाहिए।

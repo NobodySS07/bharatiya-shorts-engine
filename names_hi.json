@@ -1,0 +1,156 @@
+{
+  "_readme": "Canonical Hindi spellings. 'hi' is the ONE spelling used everywhere (narration, captions, titles). 'variants' are auto-corrected to it. 'prefix' entries fix a word stem in all its forms (मुगलों -> मुग़लों). Add new figures as you cover them.",
+  "names": [
+    {
+      "en": "Lachit Borphukan",
+      "hi": "लाचित बरफुकन",
+      "variants": [
+        "लचित बोरफुकन",
+        "लचित बरफुकन",
+        "लाचित बरफूकन",
+        "लाचित बड़फुकन",
+        "लाचित बोरफुकन",
+        "लचित बड़फुकन",
+        "लाचित बड़फूकन"
+      ]
+    },
+    {
+      "en": "Lachit",
+      "hi": "लाचित",
+      "variants": [
+        "लचित"
+      ]
+    },
+    {
+      "en": "Borphukan",
+      "hi": "बरफुकन",
+      "variants": [
+        "बरफूकन",
+        "बोरफुकन",
+        "बड़फुकन",
+        "बड़फूकन",
+        "बोड़फुकन"
+      ]
+    },
+    {
+      "en": "Saraighat",
+      "hi": "सरायघाट",
+      "variants": [
+        "सराईघाट",
+        "सराइघाट",
+        "सरायघाट्"
+      ]
+    },
+    {
+      "en": "Ram Singh",
+      "hi": "राम सिंह",
+      "variants": [
+        "रामसिंह"
+      ]
+    },
+    {
+      "en": "Aurangzeb",
+      "hi": "औरंगज़ेब",
+      "variants": [
+        "औरंगजेब",
+        "औरंगज़ेब़"
+      ]
+    },
+    {
+      "en": "Guwahati",
+      "hi": "गुवाहाटी",
+      "variants": [
+        "गौहाटी",
+        "गुवाहाटि"
+      ]
+    },
+    {
+      "en": "Brahmaputra",
+      "hi": "ब्रह्मपुत्र",
+      "variants": [
+        "ब्रम्हपुत्र",
+        "ब्रह्मपुत्रा"
+      ]
+    },
+    {
+      "en": "Barbarika",
+      "hi": "बर्बरीक",
+      "variants": [
+        "बरबरीक",
+        "बर्बरिक"
+      ]
+    },
+    {
+      "en": "Khatu Shyam",
+      "hi": "खाटू श्याम",
+      "variants": [
+        "खाटूश्याम",
+        "खाटु श्याम"
+      ]
+    },
+    {
+      "en": "Ghatotkacha",
+      "hi": "घटोत्कच",
+      "variants": [
+        "घटोत्कछ"
+      ]
+    },
+    {
+      "en": "Kurukshetra",
+      "hi": "कुरुक्षेत्र",
+      "variants": [
+        "कुरूक्षेत्र",
+        "कुरुछेत्र"
+      ]
+    },
+    {
+      "en": "Dadhichi",
+      "hi": "दधीचि",
+      "variants": [
+        "दधीची",
+        "दधिचि"
+      ]
+    },
+    {
+      "en": "Vritra",
+      "hi": "वृत्र",
+      "variants": []
+    },
+    {
+      "en": "Sambhaji Maharaj",
+      "hi": "संभाजी महाराज",
+      "variants": [
+        "सम्भाजी महाराज",
+        "संभा जी महाराज"
+      ]
+    },
+    {
+      "en": "Sambhaji",
+      "hi": "संभाजी",
+      "variants": [
+        "सम्भाजी"
+      ]
+    },
+    {
+      "en": "Chhatrapati",
+      "hi": "छत्रपति",
+      "variants": [
+        "छत्रपती"
+      ]
+    }
+  ],
+  "prefix": [
+    {
+      "from": "मुगल",
+      "to": "मुग़ल"
+    },
+    {
+      "from": "जहाज",
+      "to": "जहाज़"
+    },
+    {
+      "from": "फौज",
+      "to": "फ़ौज"
+    }
+  ]
+}

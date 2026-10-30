@@ -1,0 +1,11 @@
+.env
+data/
+output/
+logs/
+__pycache__/
+voice_samples/
+upload_queue/
+bakeoff/
+assets/music/.normalised/
+.DS_Store
+smoke_*.png

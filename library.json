@@ -1,0 +1,324 @@
+{
+  "_readme": "One entry per track. Put the audio file in assets/music/ and set 'file'. Entries whose file is missing are skipped. Only instrumental tracks without a strong lead melody (the narration sits on top). 'attribution' is added to the video description automatically when not empty. 'start_offset_s' skips a slow intro; 'gain_db' fine-tunes loudness after normalisation.",
+  "default": "tension_strategy",
+  "tracks": [
+    {
+      "id": "war_drums_epic",
+      "file": "war_drums_epic.mp3",
+      "description": "Big cinematic war drums and low brass, driving rhythm",
+      "moods": [
+        "epic",
+        "aggressive",
+        "urgent"
+      ],
+      "energy": 5,
+      "instruments": [
+        "drums",
+        "dhol",
+        "brass"
+      ],
+      "best_for": "battles, charges, sieges at their climax",
+      "avoid_for": "devotional or sorrowful stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "tension_strategy",
+      "file": "tension_strategy.mp3",
+      "description": "Low ticking pulse with dark strings, slowly building",
+      "moods": [
+        "tense",
+        "calculating",
+        "ominous"
+      ],
+      "energy": 3,
+      "instruments": [
+        "strings",
+        "pulse",
+        "low synth"
+      ],
+      "best_for": "war strategy, plans, the calm before battle, political intrigue",
+      "avoid_for": "celebratory or devotional stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "naval_river",
+      "file": "naval_river.mp3",
+      "description": "Flowing ambient strings with deep swells, like a wide river at war",
+      "moods": [
+        "vast",
+        "ominous",
+        "flowing"
+      ],
+      "energy": 3,
+      "instruments": [
+        "strings",
+        "ambient pads",
+        "low percussion"
+      ],
+      "best_for": "river or naval battles, journeys, Brahmaputra and Ganga stories",
+      "avoid_for": "court or temple stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "heroic_triumph",
+      "file": "heroic_triumph.mp3",
+      "description": "Rising orchestral theme that resolves into victory",
+      "moods": [
+        "heroic",
+        "uplifting",
+        "proud"
+      ],
+      "energy": 4,
+      "instruments": [
+        "orchestra",
+        "brass",
+        "choir pad"
+      ],
+      "best_for": "comebacks, victories, a hero turning the tide",
+      "avoid_for": "tragic endings, martyrdom",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "royal_court",
+      "file": "royal_court.mp3",
+      "description": "Stately shehnai and tabla, regal and ornate",
+      "moods": [
+        "regal",
+        "dignified",
+        "ceremonial"
+      ],
+      "energy": 2,
+      "instruments": [
+        "shehnai",
+        "tabla",
+        "strings"
+      ],
+      "best_for": "Rajput or Maratha courts, coronations, royal decisions, queens",
+      "avoid_for": "battle scenes",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "maratha_martial",
+      "file": "maratha_martial.mp3",
+      "description": "Marching percussion with a determined, guerrilla energy",
+      "moods": [
+        "determined",
+        "martial",
+        "bold"
+      ],
+      "energy": 4,
+      "instruments": [
+        "drums",
+        "dhol",
+        "tasha"
+      ],
+      "best_for": "Maratha campaigns, guerrilla warfare, forts and marches",
+      "avoid_for": "Vedic or devotional stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "south_temple",
+      "file": "south_temple.mp3",
+      "description": "Mridangam rhythm with nadaswaram colour, temple grandeur",
+      "moods": [
+        "grand",
+        "sacred",
+        "proud"
+      ],
+      "energy": 3,
+      "instruments": [
+        "mridangam",
+        "nadaswaram",
+        "veena"
+      ],
+      "best_for": "Chola, Pandya, Vijayanagara, Hoysala stories, temple builders",
+      "avoid_for": "north Indian battle stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "devotional_flute",
+      "file": "devotional_flute.mp3",
+      "description": "Soft bansuri over a warm drone, serene and divine",
+      "moods": [
+        "serene",
+        "devotional",
+        "tender"
+      ],
+      "energy": 1,
+      "instruments": [
+        "bansuri",
+        "tanpura"
+      ],
+      "best_for": "Krishna stories, bhakti, Khatu Shyam, divine grace",
+      "avoid_for": "battles",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "vedic_drone",
+      "file": "vedic_drone.mp3",
+      "description": "Tanpura drone with sparse sitar, still and meditative",
+      "moods": [
+        "meditative",
+        "sacred",
+        "ancient"
+      ],
+      "energy": 1,
+      "instruments": [
+        "tanpura",
+        "sitar"
+      ],
+      "best_for": "Vedic sages, rishis, Upanishads, penance and boons",
+      "avoid_for": "fast action",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "cosmic_divine",
+      "file": "cosmic_divine.mp3",
+      "description": "Ethereal choir pads and shimmering textures, vast and celestial",
+      "moods": [
+        "celestial",
+        "awe",
+        "mythic"
+      ],
+      "energy": 2,
+      "instruments": [
+        "choir pad",
+        "synth",
+        "bells"
+      ],
+      "best_for": "Devas and Asuras, Indra, cosmic events, divine weapons",
+      "avoid_for": "historical (non-mythic) stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "sacrifice_lament",
+      "file": "sacrifice_lament.mp3",
+      "description": "Slow sarangi or cello lament, grief with dignity",
+      "moods": [
+        "sorrowful",
+        "noble",
+        "solemn"
+      ],
+      "energy": 1,
+      "instruments": [
+        "sarangi",
+        "cello",
+        "piano"
+      ],
+      "best_for": "martyrdom, sacrifice, Dadhichi, Barbarika's head, Sambhaji's end",
+      "avoid_for": "victories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "mystery_curse",
+      "file": "mystery_curse.mp3",
+      "description": "Dark unresolved ambience with low drones",
+      "moods": [
+        "mysterious",
+        "eerie",
+        "suspenseful"
+      ],
+      "energy": 2,
+      "instruments": [
+        "drones",
+        "ambient"
+      ],
+      "best_for": "curses, riddles, secrets, prophecies, unexplained events",
+      "avoid_for": "heroic or devotional stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "folk_storytelling",
+      "file": "folk_storytelling.mp3",
+      "description": "Gentle santoor and ektara, warm folk-tale feeling",
+      "moods": [
+        "warm",
+        "gentle",
+        "nostalgic"
+      ],
+      "energy": 2,
+      "instruments": [
+        "santoor",
+        "ektara",
+        "light percussion"
+      ],
+      "best_for": "folk tales, village legends, lighter or wise stories",
+      "avoid_for": "war stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    },
+    {
+      "id": "valour_dhol_strings",
+      "file": "valour_dhol_strings.mp3",
+      "description": "Proud dhol rhythm under cinematic strings",
+      "moods": [
+        "proud",
+        "energetic",
+        "brave"
+      ],
+      "energy": 4,
+      "instruments": [
+        "dhol",
+        "strings"
+      ],
+      "best_for": "Sikh and Rajput valour, last stands, oaths of honour",
+      "avoid_for": "meditative stories",
+      "source": "",
+      "license": "",
+      "attribution": "",
+      "start_offset_s": 0,
+      "gain_db": 0
+    }
+  ]
+}
