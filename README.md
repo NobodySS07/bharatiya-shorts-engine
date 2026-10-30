@@ -1,63 +1,123 @@
 # Bharatiya Shorts Engine
 
-Automated 60-second YouTube Shorts on Itihasa, Purana and Indian history.
+An automated pipeline that writes, fact-checks, illustrates, narrates and renders
+60–90 second vertical YouTube Shorts about Itihasa, Purana and Indian history.
+Its main mode is Hindi, with Devanagari captions and Sarvam AI narration. English also works.
+
+One command takes a story from topic to a finished `final_short.mp4`, with a ready-to-paste upload kit
+(title, description, tags, playlist and captions).
+
+## How it works
+
+```
+topic ──► script ──► fact-check ──► Hindi polish ──► character anchors ──► scenes ──► voice ──► captions ──► render
+(seed or   (Claude)   (judge from a    (editor model)   (Imagen, 1 per      (Gemini,    (Sarvam  (Whisper word   (FFmpeg: Ken Burns
+ AI-picked,           different model                    main character)     conditioned  / TTS)   timestamps)     motion, music, SFX,
+ deduped by           family)                                                on anchors,                           burned-in captions)
+ embeddings)                                                                 vision QA)
+```
+
+| Stage | Models (in fallback order) |
+|---|---|
+| Topic and script | claude-sonnet-5-5 → claude-sonnet-4-6 |
+| Fact-check judge (different model family) | gemini-3.1-pro → gpt-5.4 |
+| Hindi editor and fluency judge | gemini-3.1-pro / gpt-5.4 (never grades its own edit) |
+| Duplicate check | text-embedding-3-small (cosine similarity ≥ 0.82 counts as a duplicate) |
+| Character anchors (up to 4 per video) | imagen-4-ultra → imagen-4 |
+| 12–14 scenes, conditioned on the anchors | gemini-3.1-flash-image → gemini-2.5-flash-image → imagen-4 (text only) |
+| Visual QA (text, watermarks, character drift, anatomy) | gemini-3.5-flash → gpt-5.4-mini |
+| Voice | Sarvam Bulbul (Hindi) / tts-1-hd (English) |
+| Word timestamps | whisper-1, with a pause-anchored fallback |
+| Music pick | gemini-3.5-flash |
+
+All text, image and audio calls except Sarvam go through the [Fuel iX](https://fuelix.ai)
+OpenAI-compatible API. Model chains, thresholds, visual style and seed topics are all set in
+[`config.py`](config.py).
+
+### Reliability
+- **Checkpointed:** every output file is a checkpoint. If you rerun after a crash or Ctrl-C, the pipeline skips everything that is already valid on disk.
+- **Fallbacks and retries:** each stage tries a chain of models. Transient errors (429, 5xx and timeouts) back off and retry.
+- **Cost guard:** image calls are capped per run (`MAX_IMAGE_CALLS_PER_RUN`), and a circuit breaker stops a batch after too many failures.
+- **Run lock and backups:** only one run can happen at a time, and the SQLite database is backed up automatically.
+
+## Requirements
+- Python 3.10+
+- FFmpeg built with libass (check with `ffmpeg -filters | grep subtitles`)
+- A Fuel iX API key, plus a [Sarvam AI](https://dashboard.sarvam.ai) key for Hindi
+- A Devanagari font (Kohinoor Devanagari ships with macOS; on Linux or Windows use Noto Sans Devanagari)
 
 ## Setup
-1. Python 3.11+, and FFmpeg with libass (`ffmpeg -filters | grep subtitles`).
-2. `pip install -r requirements.txt`
-3. `cp .env.example .env` and add your `FUELIX_API_KEY`.
-4. Optional: put a loop at `assets/bg_music.mp3` (auto-ducked under the voice).
+```bash
+pip install -r requirements.txt
+cp .env.example .env        # then fill in FUELIX_API_KEY and SARVAM_API_KEY
+python smoke_test.py        # cheap check of text, embeddings, TTS and timestamps
+python smoke_test.py --images   # also tests the anchor, a ref-conditioned scene and vision QA (~3 image calls)
+```
+If any line says FAIL, that tells you which model name or endpoint to change in `config.py`.
 
-## First run
-    python smoke_test.py            # text, embeddings, TTS, word timestamps
-    python smoke_test.py --images   # + Imagen anchor, Gemini ref-conditioned scene, vision QA
-Open the `smoke_*.png` files and confirm the Gemini scene keeps the anchor's face.
-Any FAIL tells you which model name or endpoint to change in `config.py`.
+## Usage
+```bash
+python main.py              # produce VIDEOS_TO_GENERATE new videos (finishes interrupted ones first)
+```
 
-    python main.py
+Topics run in this order: unfinished stories first, then `SEED_TOPICS` from `config.py`, then
+topics the AI picks itself.
 
-## Pipeline
-| Stage | Models (fallback order) |
+### Other tools
+| Command | Purpose |
 |---|---|
-| Topic + script | claude-sonnet-5-5 -> claude-sonnet-4-6 |
-| Fact-check judge (different family) | gemini-3.1-pro -> gpt-5.4 |
-| Dedup embeddings | text-embedding-3-small |
-| Character anchors (1 per main character, max 3) | imagen-4-ultra -> imagen-4 |
-| 12 scenes, conditioned on anchors | gemini-3.1-flash-image -> gemini-2.5-flash-image -> imagen-4 (text-only) |
-| Visual QA (text/watermark, drift, anatomy) | gemini-3.5-flash -> gpt-5.4-mini |
-| Voice | tts-1-hd / onyx |
-| Word timestamps | whisper-1 (falls back to proportional timing) |
+| `python regenerate.py --list` | Show every story and its status |
+| `python regenerate.py 1` | Re-render story #1 only (no API cost) |
+| `python regenerate.py 1 --from voice` | Redo from the given stage onward (`narration`, `voice`, `scenes`, `anchors` or `script`) |
+| `python regenerate.py 1 --scene 4 7` | Redo only scenes 4 and 7, then re-render |
+| `python upload_kit.py [N \| --all]` | Build `UPLOAD_KIT.txt` plus captions in `upload_queue/` |
+| `python bakeoff.py [--edited \| --editors]` | Blind A/B/C/D comparison of writer or editor models |
+| `python sarvam_voice_test.py [voice ids]` | Audition Sarvam Hindi voices into `voice_samples/` |
+| `python music.py` | Check the music library |
 
-## Output (per story in `output/NNN_Name/`)
-`script_verified.json`, `fact_check_log.json`, `anchor_c*.png`, `scene_01..12.png`,
-`voiceover.mp3`, `subtitles.srt`, `timings.json`, `final_short.mp4`, `upload_metadata.json`.
-Every file is a checkpoint: rerunning skips anything already valid on disk.
+## Output
+Each story gets its own folder, `output/NNN_Name/`:
 
-## Statuses in `data/stories.db`
-`queued -> scripted -> media_done -> rendered`. A story that fails `MAX_VIDEO_ATTEMPTS`
-times is parked as `failed` with `last_error`. To retry it:
-`UPDATE stories SET attempts=0, status='queued' WHERE id=N;`
+```
+script_verified.json   fact_check_log.json   anchor_c*.png   scene_01..14.png
+voiceover.mp3          subtitles.srt         timings.json    music_choice.json
+final_short.mp4        upload_metadata.json  UPLOAD_KIT.txt
+```
 
-## Hindi (Sarvam voice)
-`LANGUAGE = "hi"` in config.py -> Claude writes Hindi narration, Gemini fact-checks it,
-Sarvam Bulbul voices it, Whisper times it (language=hi) and captions burn in Devanagari.
-Images and everything else stay on Fuel iX.
+Story status is tracked in `data/stories.db`, moving through
+`queued → scripted → media_done → rendered`. A story that fails `MAX_VIDEO_ATTEMPTS`
+times is parked as `failed`, and the reason is saved in `last_error`. To retry it:
+```sql
+UPDATE stories SET attempts=0, status='queued' WHERE id=N;
+```
 
-1. Put `SARVAM_API_KEY=...` in `.env`.
-2. `python sarvam_voice_test.py shubh_hi_stories_dramatic`  (one call, ~₹0.6)
-3. Optionally `python sarvam_voice_test.py` to audition the full shortlist (~₹5).
-4. Put your favourite voice first in `SARVAM_VOICES`.
+## Customising
+- **Language:** set `LANGUAGE = "hi"` or `"en"` in `config.py`.
+- **Voice:** put your preferred voice first in `SARVAM_VOICES`.
+- **Visual style:** edit `TEMPLE_FRESCO_GLOW_STYLE`.
+- **Hindi name spellings:** edit `names_hi.json`. The writer is told to use these spellings, and any mismatches are corrected afterwards.
+- **Viewer feedback on Hindi style:** add notes to `hindi_feedback.txt`. They are fed to the writer and the editor.
+- **Music:** put instrumental tracks in `assets/music/` and list them in `assets/music/library.json`. Tracks are loudness-normalised, faded and lowered (ducked) under the voice.
+- **Sound effects (optional):** add `assets/sfx/whoosh.mp3` for scene changes and `assets/sfx/impact.mp3` for the hook.
+- **Fonts:** drop a `.ttf` into `assets/fonts/` and set `SUBTITLE_FONTS`.
 
-Captions use an ASS file with complex text shaping so conjuncts render correctly.
-If a Devanagari font isn't found, drop a .ttf (e.g. Noto Sans Devanagari) into `assets/fonts/`
-and set `SUBTITLE_FONTS["hi"]` to its family name.
+Settings added in newer versions are filled in from `config_defaults.py`, so an older `config.py` keeps working.
 
-## Music & sound effects
-Fill `assets/music/` with instrumental tracks and set each `file` in `assets/music/library.json`
-(slots without a file are skipped). Check with `python music.py`. A fast model picks one track per
-story (`music_choice.json` in the video folder); tracks are loudness-normalised, faded and ducked
-under the voice. Optional SFX: `assets/sfx/whoosh.mp3` (scene changes) and `assets/sfx/impact.mp3` (hook).
+## Project layout
+| File | Role |
+|---|---|
+| `main.py` | Orchestrator: preflight checks, then the resume, seed and AI-topic loop |
+| `script_engine.py` | Topic discovery, script writing, validation and the fact-check loop |
+| `hindi_style.py`, `names.py` | Hindi editor, style lint and name normalisation |
+| `media_generator.py` | Anchors, scenes, visual QA, voiceover and captions |
+| `captions.py` | Word alignment and SRT/ASS caption building (handles Devanagari text shaping) |
+| `voice.py` | Sarvam TTS (splits long text into chunks, then joins the WAVs) |
+| `music.py` | Music library, LLM track pick and loudness normalisation |
+| `video_renderer.py` | FFmpeg rendering: motion, audio mix, hook text, call to action, burned-in captions |
+| `fuelix_client.py` | API client: chat, embeddings, images, vision, TTS and transcription |
+| `db_manager.py` | SQLite story queue, similarity dedup and backups |
+| `utils.py` | Retries, fallbacks, atomic writes and the run lock |
 
-## Writer bake-off
-`python bakeoff.py` writes the first seed story with every model in `BAKEOFF_MODELS`, saved blind as
-`bakeoff/<time>/A.txt…`. Choose a winner, then open `KEY.json`.
+## Security
+API keys are read only from `.env` or environment variables. `.env` is in `.gitignore`, so it is never committed.
+Generated media (`output/`, `upload_queue/`), the database (`data/`), and logs are also excluded.
